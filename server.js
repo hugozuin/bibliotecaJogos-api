@@ -4,9 +4,8 @@ const crypto = require('crypto');
 const app = express();
 app.use(express.json());
 
-// ========================================
+
 // DADOS INICIAIS (em memória)
-// ========================================
 let jogos = [
   {
     id: 1,
@@ -26,9 +25,8 @@ let jogos = [
 
 let proximoId = 3;
 
-// ========================================
+
 // FUNÇÃO AUXILIAR DE VALIDAÇÃO
-// ========================================
 function validarCamposJogo(body) {
   if (!body || typeof body !== 'object') {
     return 'Corpo da requisição inválido.';
@@ -50,9 +48,8 @@ function validarCamposJogo(body) {
   return null;
 }
 
-// ========================================
+
 // ROTA DE STATUS (opcional, útil pro deploy)
-// ========================================
 app.get('/', (req, res) => {
   res.status(200).json({
     mensagem: 'API Biblioteca de Jogos rodando.',
@@ -67,9 +64,8 @@ app.get('/', (req, res) => {
   });
 });
 
-// ========================================
+
 // POST /login
-// ========================================
 app.post('/login', (req, res) => {
   const { email, password } = req.body || {};
 
@@ -80,16 +76,14 @@ app.post('/login', (req, res) => {
   return res.status(401).json({ erro: 'Credenciais inválidas.' });
 });
 
-// ========================================
+
 // GET /jogos
-// ========================================
 app.get('/jogos', (req, res) => {
   return res.status(200).json(jogos);
 });
 
-// ========================================
+
 // GET /jogos/:id
-// ========================================
 app.get('/jogos/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
 
@@ -106,9 +100,8 @@ app.get('/jogos/:id', (req, res) => {
   return res.status(200).json(jogo);
 });
 
-// ========================================
+
 // POST /jogos
-// ========================================
 app.post('/jogos', (req, res) => {
   const erroValidacao = validarCamposJogo(req.body);
   if (erroValidacao) {
@@ -129,9 +122,8 @@ app.post('/jogos', (req, res) => {
   return res.status(201).json(novoJogo);
 });
 
-// ========================================
+
 // PUT /jogos/:id
-// ========================================
 app.put('/jogos/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
 
@@ -156,9 +148,8 @@ app.put('/jogos/:id', (req, res) => {
   return res.status(200).json(jogos[index]);
 });
 
-// ========================================
+
 // DELETE /jogos/:id
-// ========================================
 app.delete('/jogos/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
 
@@ -176,9 +167,8 @@ app.delete('/jogos/:id', (req, res) => {
   return res.status(204).send();
 });
 
-// ========================================
+
 // MIDDLEWARE DE ERRO (JSON malformado)
-// ========================================
 app.use((err, req, res, next) => {
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ erro: 'JSON inválido no corpo da requisição.' });
@@ -186,9 +176,8 @@ app.use((err, req, res, next) => {
   return res.status(500).json({ erro: 'Erro interno do servidor.' });
 });
 
-// ========================================
+
 // INICIA O SERVIDOR
-// ========================================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
