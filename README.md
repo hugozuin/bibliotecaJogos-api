@@ -39,6 +39,6 @@ A API ficará disponível em `http://localhost:3000`.
 
 ## Credenciais de teste
 
-\`\`\`json
+```json
 { "email": "usuario@esoft.com", "password": "Abc123" }
-\`\`\`
+```
